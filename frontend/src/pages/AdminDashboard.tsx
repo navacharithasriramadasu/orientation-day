@@ -97,11 +97,7 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const collegeLabel =
-    selectedCollege === 'all'
-      ? 'All Institutions'
-      : selectedCollege === 'mvsr'
-      ? 'MVSR'
-      : 'Matrusri';
+    selectedCollege === 'mvsr' ? 'MVSR' : 'All Institutions';
 
   return (
     <div className="max-w-7xl mx-auto p-3.5 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 text-slate-100">
@@ -150,7 +146,6 @@ export const AdminDashboard: React.FC = () => {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:flex items-center gap-2">
           <button
             type="button"
             onClick={() => setSelectedCollege('all')}
@@ -160,7 +155,7 @@ export const AdminDashboard: React.FC = () => {
                 : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
             }`}
           >
-            🏛 All Institutions ({stats.collegeBreakdown?.reduce((a, b) => a + b.count, 0) || 1385})
+            🏛 All Students
           </button>
 
           <button
@@ -172,19 +167,7 @@ export const AdminDashboard: React.FC = () => {
                 : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
             }`}
           >
-            🎓 MVSR (2451-xxxx)
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSelectedCollege('matrusri')}
-            className={`w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${
-              selectedCollege === 'matrusri'
-                ? 'bg-gradient-to-r from-teal-500 to-cyan-400 text-slate-950 shadow-md shadow-teal-500/25 border border-teal-300/40'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
-            }`}
-          >
-            🏛 Matrusri (1608-xxxx)
+            🎓 MVSR Engineering College
           </button>
         </div>
       </div>

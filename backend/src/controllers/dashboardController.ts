@@ -19,13 +19,6 @@ export class DashboardController {
               { studentId: { startsWith: '2451' } },
             ],
           });
-        } else if (query === 'matrusri' || query.includes('matrusri') || query === 'mec') {
-          collegeConditions.push({
-            OR: [
-              { college: { contains: 'Matrusri', mode: 'insensitive' } },
-              { studentId: { startsWith: '1608' } },
-            ],
-          });
         } else {
           collegeConditions.push({
             college: { contains: college.trim(), mode: 'insensitive' },
@@ -125,10 +118,9 @@ export class DashboardController {
 
       const availableColleges = [
         'MVSR Engineering College',
-        'Matrusri Engineering College',
         ...collegeBreakdown
           .map((c) => c.college)
-          .filter((c) => c && !['MVSR Engineering College', 'Matrusri Engineering College'].includes(c)),
+          .filter((c) => c && c !== 'MVSR Engineering College'),
       ];
 
       return res.json({

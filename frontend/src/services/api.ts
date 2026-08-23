@@ -22,7 +22,7 @@ export function getApiBaseUrl(): string {
     return envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`;
   }
 
-  return 'https://graduation-day-backend-yy69.onrender.com/api';
+  return 'https://orientation-day-backend.onrender.com/api';
 }
 
 function getAuthHeader(): Record<string, string> {

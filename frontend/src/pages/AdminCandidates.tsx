@@ -52,11 +52,6 @@ export const AdminCandidates: React.FC = () => {
     fetchCandidates();
   }, [page, search, college, program, paymentStatus, eligibility, attendance, qrGenerated]);
 
-  const isMatrusri = (c: any) => {
-    const col = (c.college || '').toLowerCase();
-    const id = (c.studentId || '').trim();
-    return col.includes('matrusri') || id.startsWith('1608');
-  };
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 text-slate-100">
@@ -67,7 +62,7 @@ export const AdminCandidates: React.FC = () => {
             Candidate Master Directory
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Search, filter, and inspect registered candidates across MVSR and Matrusri institutions.
+            Search, filter, and inspect registered candidates for MVSR Engineering College.
           </p>
         </div>
         <button
@@ -105,7 +100,6 @@ export const AdminCandidates: React.FC = () => {
         >
           <option value="">🏛 All Colleges</option>
           <option value="mvsr">🎓 MVSR Eng. College (2451)</option>
-          <option value="matrusri">🏛 Matrusri Eng. College (1608)</option>
         </select>
 
         <select
@@ -196,21 +190,14 @@ export const AdminCandidates: React.FC = () => {
                   </tr>
                 ) : (
                   candidates.map((c) => {
-                    const matrusri = isMatrusri(c);
                     return (
                       <tr key={c.id} className="hover:bg-slate-700/40 transition-colors">
                         <td className="py-3.5 px-4 font-mono font-bold text-white">{c.studentId}</td>
                         <td className="py-3.5 px-4 font-semibold text-slate-100">{c.name}</td>
                         <td className="py-3.5 px-4">
-                          <span
-                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                              matrusri
-                                ? 'bg-teal-500/10 text-teal-300 border-teal-500/30'
-                                : 'bg-blue-500/10 text-blue-300 border-blue-500/30'
-                            }`}
-                          >
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border bg-blue-500/10 text-blue-300 border-blue-500/30">
                             <GraduationCap className="w-3 h-3" />
-                            {matrusri ? 'Matrusri' : 'MVSR'}
+                            MVSR
                           </span>
                         </td>
                         <td className="py-3.5 px-4 text-slate-400">{c.program}</td>

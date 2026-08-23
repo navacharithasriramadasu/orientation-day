@@ -44,12 +44,6 @@ export class AdminCandidatesController {
             { college: { contains: 'MVSR', mode: 'insensitive' } },
             { studentId: { startsWith: '2451' } },
           ];
-        } else if (query === 'matrusri' || query.includes('matrusri') || query === 'mec') {
-          where.OR = [
-            ...(where.OR || []),
-            { college: { contains: 'Matrusri', mode: 'insensitive' } },
-            { studentId: { startsWith: '1608' } },
-          ];
         } else {
           where.college = { contains: college.trim(), mode: 'insensitive' };
         }

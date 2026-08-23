@@ -65,14 +65,6 @@ export class AttendanceController {
               { studentId: { startsWith: '2451' } },
             ],
           };
-        } else if (query === 'matrusri' || query.includes('matrusri') || query === 'mec') {
-          where.candidate = {
-            ...(where.candidate || {}),
-            OR: [
-              { college: { contains: 'Matrusri', mode: 'insensitive' } },
-              { studentId: { startsWith: '1608' } },
-            ],
-          };
         } else {
           where.candidate = {
             ...(where.candidate || {}),
