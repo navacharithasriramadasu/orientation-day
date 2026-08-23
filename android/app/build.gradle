@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.mvsr.orientationday2026"
-    compileSdk = rootProject.ext.compileSdkVersion
+    namespace "com.mvsr.orientation26.app"
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.mvsr.orientationday2026"
+        applicationId "com.mvsr.orientation26.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

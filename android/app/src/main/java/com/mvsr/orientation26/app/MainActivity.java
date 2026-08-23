@@ -1,6 +1,5 @@
-package com.mvsr.orientationday2026;
+package com.mvsr.orientation26.app;
 
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {}
-

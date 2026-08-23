@@ -172,8 +172,8 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* ── 4 Top KPI Cards (Responsive 2x2 on mobile, 4 on desktop) ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* ── 2 Top KPI Cards (Responsive 2 cols) ── */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {/* Total Candidates */}
         <div 
           onClick={() => navigate(`/candidates${selectedCollege !== 'all' ? `?college=${selectedCollege}` : ''}`)}
@@ -189,39 +189,9 @@ export const AdminDashboard: React.FC = () => {
           </span>
         </div>
 
-        {/* Paid Candidates */}
-        <div 
-          onClick={() => navigate(`/candidates?paymentStatus=PAID${selectedCollege !== 'all' ? `&college=${selectedCollege}` : ''}`)}
-          className="bg-slate-800/80 border border-emerald-500/30 rounded-2xl p-3.5 sm:p-4 space-y-1.5 cursor-pointer hover:bg-slate-700/80 transition-colors shadow-lg"
-        >
-          <div className="flex items-center justify-between text-emerald-400">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Paid</span>
-            <CheckCircle2 className="w-4 h-4" />
-          </div>
-          <p className="text-xl sm:text-3xl font-black text-emerald-400 font-mono">{stats.paidCandidates.toLocaleString()}</p>
-          <span className="text-[10px] text-emerald-400/80 truncate block">
-            {collegeLabel} (PAID)
-          </span>
-        </div>
-
-        {/* Unpaid Candidates */}
-        <div 
-          onClick={() => navigate(`/candidates?paymentStatus=NOT_PAID${selectedCollege !== 'all' ? `&college=${selectedCollege}` : ''}`)}
-          className="bg-slate-800/80 border border-rose-500/30 rounded-2xl p-3.5 sm:p-4 space-y-1.5 cursor-pointer hover:bg-slate-700/80 transition-colors shadow-lg"
-        >
-          <div className="flex items-center justify-between text-rose-400">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Unpaid</span>
-            <XCircle className="w-4 h-4" />
-          </div>
-          <p className="text-xl sm:text-3xl font-black text-rose-400 font-mono">{stats.notPaidCandidates.toLocaleString()}</p>
-          <span className="text-[10px] text-rose-400/80 truncate block">
-            {collegeLabel} (NOT PAID)
-          </span>
-        </div>
-
         {/* Active QR Passes */}
         <div 
-          onClick={() => navigate(`/candidates?qrGenerated=true${selectedCollege !== 'all' ? `&college=${selectedCollege}` : ''}`)}
+          onClick={() => navigate(`/candidates?qrGenerated=true${selectedCollege !== 'all' ? `?college=${selectedCollege}` : ''}`)}
           className="bg-slate-800/80 border border-indigo-500/30 rounded-2xl p-3.5 sm:p-4 space-y-1.5 cursor-pointer hover:bg-slate-700/80 transition-colors shadow-lg"
         >
           <div className="flex items-center justify-between text-indigo-400">

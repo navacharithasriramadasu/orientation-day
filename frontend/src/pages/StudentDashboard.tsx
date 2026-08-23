@@ -80,7 +80,7 @@ export const StudentDashboard: React.FC = () => {
 
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {message ||
-                `You are currently not eligible for Orientation Day entrance based on official record status (${candidate.paymentStatus}).`}
+                `You are currently not eligible for Orientation Day entrance based on official record status.`}
             </p>
 
             <div className="bg-slate-900/80 rounded-2xl p-4 border border-rose-500/20 text-xs space-y-2 font-mono">
@@ -95,10 +95,6 @@ export const StudentDashboard: React.FC = () => {
               <div className="flex justify-between">
                 <span className="text-slate-400">Program:</span>
                 <span className="text-white font-bold">{candidate.program}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Payment Status:</span>
-                <span className="text-rose-400 font-bold">{candidate.paymentStatus}</span>
               </div>
             </div>
 
