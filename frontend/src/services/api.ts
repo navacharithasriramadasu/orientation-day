@@ -176,7 +176,7 @@ export const api = {
   },
 
   // Live Attendance
-  getAttendanceLogs: async (params?: Record<string, string>): Promise<AttendanceListResponse> => {
+  getAttendanceLogs: async (params?: Record<string, string>): Promise<any> => {
     const query = new URLSearchParams(params).toString();
     const res = await safeFetch(`${getApiBaseUrl()}/admin/attendance?${query}`, {
       headers: { ...getAuthHeader() },

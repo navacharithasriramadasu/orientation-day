@@ -145,7 +145,7 @@ export const AdminDashboard: React.FC = () => {
             Filter by Institution:
           </span>
         </div>
-
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setSelectedCollege('all')}
