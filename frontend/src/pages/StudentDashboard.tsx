@@ -51,19 +51,19 @@ export const StudentDashboard: React.FC = () => {
   const { candidate, event, qrToken, attendance, eligible, message } = studentSession;
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950">
-      <div className="w-full max-w-xl mx-auto space-y-6 text-center">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-start pt-6 pb-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950">
+      <div className="w-full max-w-sm sm:max-w-xl mx-auto space-y-5 text-center">
         {/* Header Badge & Title */}
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
-            Official Student Portal Pass
+            Official Student Pass
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Orientation Day - 2026 Batch Pass
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+            Orientation Day<br className="sm:hidden" /> - 2026 Batch
           </h1>
-          <p className="text-xs text-slate-400 max-w-md mx-auto">
-            Welcome, <strong className="text-white">{candidate.name}</strong> ({candidate.studentId}). Present this QR pass at the entrance gate for verification.
+          <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+            Welcome, <strong className="text-white">{candidate.name}</strong>. Present this QR pass at the entrance gate.
           </p>
         </div>
 
