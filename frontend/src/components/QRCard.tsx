@@ -55,10 +55,8 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
       const dataUrl = canvas.toDataURL('image/png', 1.0);
 
       // ── NATIVE CAPACITOR (Android / iOS app) ──
-      const isNative = Boolean(
-        typeof window !== 'undefined' &&
-        (window as any).Capacitor?.isNativePlatform?.()
-      );
+      const { isNativePlatform } = await import('../services/api');
+      const isNative = isNativePlatform();
 
       if (isNative) {
         try {
