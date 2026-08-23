@@ -72,7 +72,7 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
           
           await Media.savePhoto({
             path: savedFile.uri,
-            album: 'OrientationDay'
+            fileName: `MVSR_QR_${candidate.studentId}`
           });
           
           showToast('✓ QR Pass saved to Gallery!');
