@@ -7,9 +7,9 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 async function main() {
-  const username = process.env.DEFAULT_ADMIN_USERNAME || 'admin@graduation.edu';
-  const password = process.env.DEFAULT_ADMIN_PASSWORD || 'admin@2026';
-  const name = process.env.DEFAULT_ADMIN_NAME || 'Graduation Admin';
+  const username = process.env.DEFAULT_ADMIN_USERNAME || 'admin@orientation.edu';
+  const password = process.env.DEFAULT_ADMIN_PASSWORD || 'admin-2026';
+  const name = process.env.DEFAULT_ADMIN_NAME || 'Orientation Admin';
 
   const passwordHash = PasswordUtils.hashPassword(password);
 

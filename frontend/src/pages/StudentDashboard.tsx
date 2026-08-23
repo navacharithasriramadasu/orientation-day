@@ -60,7 +60,7 @@ export const StudentDashboard: React.FC = () => {
             Official Student Portal Pass
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Graduation Day 2026 Pass
+            Orientation Day - 2026 Batch Pass
           </h1>
           <p className="text-xs text-slate-400 max-w-md mx-auto">
             Welcome, <strong className="text-white">{candidate.name}</strong> ({candidate.studentId}). Present this QR pass at the entrance gate for verification.
@@ -80,7 +80,7 @@ export const StudentDashboard: React.FC = () => {
 
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {message ||
-                `You are currently not eligible for Graduation Day entrance based on official record payment status (${candidate.paymentStatus}).`}
+                `You are currently not eligible for Orientation Day entrance based on official record status (${candidate.paymentStatus}).`}
             </p>
 
             <div className="bg-slate-900/80 rounded-2xl p-4 border border-rose-500/20 text-xs space-y-2 font-mono">
@@ -147,7 +147,7 @@ export const StudentDashboard: React.FC = () => {
                   <div>
                     <span className="font-bold text-emerald-200 text-sm block">PASS ACTIVE - READY FOR SCAN</span>
                     <span className="text-emerald-300/80">
-                      Eligible for Graduation Day 2026. Show this QR code to the entrance administrator.
+                      Eligible for Orientation Day - 2026 Batch. Show this QR code to the entrance administrator.
                     </span>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ export const StudentDashboard: React.FC = () => {
             {/* Official QR Pass Card */}
             <QRCard
               candidate={candidate}
-              event={event || { name: 'Graduation Day 2026 Ceremony' }}
+              event={event || { name: 'Orientation Day - 2026 Batch' }}
               token={qrToken}
             />
 

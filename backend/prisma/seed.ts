@@ -44,14 +44,14 @@ async function main() {
     },
   });
 
-  // Create default Graduation Event
+  // Create default Orientation Event
   const defaultEvent = await prisma.event.upsert({
     where: { slug: 'attendance' },
-    update: { isActive: true },
+    update: { name: 'Orientation Day - 2026 Batch', isActive: true },
     create: {
       slug: 'attendance',
-      name: 'Graduation Day 2026',
-      description: 'Official Entrance Attendance for Graduation Day 2026 Candidates',
+      name: 'Orientation Day - 2026 Batch',
+      description: 'Official Entrance Attendance for Orientation Day - 2026 Batch Candidates',
       isActive: true,
     },
   });

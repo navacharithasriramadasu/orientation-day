@@ -5,40 +5,27 @@ const prisma = new PrismaClient();
 
 export class AttendanceService {
   /**
-   * Ensures default ceremony events (Gate Entry & Kit Allocation) exist.
+   * Ensures default Orientation Day event exists.
    */
   static async ensureDefaultEvents() {
     const entryEvent = await prisma.event.upsert({
       where: { slug: 'attendance' },
-      update: { name: 'Gate Entry & Attendance', requiresPayment: false, isActive: true },
+      update: { name: 'Orientation Day - 2026 Batch', requiresPayment: false, isActive: true },
       create: {
         slug: 'attendance',
-        name: 'Gate Entry & Attendance',
-        description: 'Main ceremony entrance verification for all registered candidates',
+        name: 'Orientation Day - 2026 Batch',
+        description: 'Main entrance verification and attendance for all registered candidates',
         requiresPayment: false,
         isActive: true,
       },
     });
 
-    const kitEvent = await prisma.event.upsert({
-      where: { slug: 'kit-allocation' },
-      update: { name: 'Graduation Kit Allocation', requiresPayment: false, isActive: true },
-      create: {
-        slug: 'kit-allocation',
-        name: 'Graduation Kit Allocation',
-        description: 'Graduation gown and kit distribution for candidates (tracked for both paid and unpaid)',
-        requiresPayment: false,
-        isActive: true,
-      },
-    });
-
-    return { entryEvent, kitEvent };
+    return { entryEvent };
   }
 
   /**
-   * Performs real-time backend validation for Gate Entry or Kit Allocation.
-   * Single QR code works for both checkpoints with dedicated duplicate prevention.
-   * Kit allocation is allowed for both paid and unpaid candidates, with fee status tracked.
+   * Performs real-time backend validation for Orientation Day Entrance Verification.
+   * Checks QR pass authenticity, student record, and enforces duplicate rescan prevention.
    */
   static async scanQrToken(token: string, scanModeOrEventId?: string): Promise<ScanResponse> {
     if (!token || typeof token !== 'string') {
@@ -48,17 +35,10 @@ export class AttendanceService {
       };
     }
 
-    const { entryEvent, kitEvent } = await this.ensureDefaultEvents();
+    const { entryEvent } = await this.ensureDefaultEvents();
 
-    // Determine target event based on scan mode or event ID
     let targetEvent = entryEvent;
-    const mode = (scanModeOrEventId || '').trim().toLowerCase();
-
-    if (mode === 'kit' || mode === 'kit-allocation' || mode === kitEvent.id || mode.includes('kit')) {
-      targetEvent = kitEvent;
-    } else if (mode === 'entry' || mode === 'attendance' || mode === entryEvent.id || mode.includes('entry')) {
-      targetEvent = entryEvent;
-    } else if (scanModeOrEventId) {
+    if (scanModeOrEventId && scanModeOrEventId !== 'attendance' && scanModeOrEventId !== 'entry') {
       const customEvent = await prisma.event.findFirst({
         where: {
           OR: [{ id: scanModeOrEventId }, { slug: scanModeOrEventId }],
@@ -68,8 +48,6 @@ export class AttendanceService {
         targetEvent = customEvent;
       }
     }
-
-    const isKitMode = targetEvent.slug === 'kit-allocation' || targetEvent.name.toLowerCase().includes('kit');
 
     // Step 1: Find QR token and candidate
     const qrToken = await prisma.qrToken.findUnique({
@@ -86,7 +64,7 @@ export class AttendanceService {
       if (!candidateByRoll) {
         return {
           status: 'INVALID',
-          message: 'QR code not recognized in official graduation database.',
+          message: 'QR code not recognized in official orientation database.',
         };
       }
 
@@ -102,7 +80,7 @@ export class AttendanceService {
         };
       }
 
-      return this.processCandidateAttendance(candidateByRoll, existingToken.id, targetEvent, isKitMode);
+      return this.processCandidateAttendance(candidateByRoll, existingToken.id, targetEvent);
     }
 
     if (!qrToken.isActive) {
@@ -113,21 +91,20 @@ export class AttendanceService {
       };
     }
 
-    return this.processCandidateAttendance(qrToken.candidate, qrToken.id, targetEvent, isKitMode);
+    return this.processCandidateAttendance(qrToken.candidate, qrToken.id, targetEvent);
   }
 
   private static async processCandidateAttendance(
     candidate: any,
     qrTokenId: string,
-    event: any,
-    isKitMode: boolean
+    event: any
   ): Promise<ScanResponse> {
     const norm = (candidate.normalizedPaymentStatus || '').toUpperCase();
     const raw = (candidate.paymentStatus || '').trim().toLowerCase();
     const isPaid = norm === 'PAID' || (raw === 'paid' || (raw.includes('paid') && !raw.includes('not') && !raw.includes('unpaid') && !raw.includes('due')));
     const displayFeeStatus = isPaid ? 'Paid' : (candidate.paymentStatus || 'Not Paid');
 
-    // Duplicate scan check for this specific checkpoint
+    // Duplicate scan check for this event checkpoint
     const existing = await prisma.attendance.findUnique({
       where: {
         candidateId_eventId: {
@@ -144,23 +121,9 @@ export class AttendanceService {
         second: '2-digit',
       });
 
-      if (isKitMode) {
-        return {
-          status: 'DUPLICATE',
-          message: `KIT ALREADY ALLOCATED: Kit was already collected by ${candidate.name} at ${timeStr}.`,
-          candidate: {
-            studentId: candidate.studentId,
-            name: candidate.name,
-            program: candidate.program,
-          },
-          event: event.name,
-          entryTime: existing.entryTime.toISOString(),
-        };
-      }
-
       return {
         status: 'DUPLICATE',
-        message: `ALREADY SCANNED: Gate entry was already recorded for ${candidate.name} at ${timeStr}.`,
+        message: `ALREADY SCANNED: Entrance entry was already recorded for ${candidate.name} at ${timeStr}.`,
         candidate: {
           studentId: candidate.studentId,
           name: candidate.name,
@@ -171,7 +134,7 @@ export class AttendanceService {
       };
     }
 
-    // Step 3: Record new scan
+    // Step 3: Record new entrance scan
     try {
       const attendance = await prisma.attendance.create({
         data: {
@@ -182,13 +145,9 @@ export class AttendanceService {
         },
       });
 
-      const successMsg = isKitMode
-        ? `Graduation Kit Allocated to ${candidate.name} (${displayFeeStatus})`
-        : `Gate Entry Verified for ${candidate.name} (${displayFeeStatus})`;
-
       return {
         status: 'SUCCESS',
-        message: successMsg,
+        message: `Entrance Verified for ${candidate.name} (${displayFeeStatus})`,
         candidate: {
           studentId: candidate.studentId,
           name: candidate.name,
@@ -210,9 +169,7 @@ export class AttendanceService {
 
         return {
           status: 'DUPLICATE',
-          message: isKitMode
-            ? 'KIT ALREADY ALLOCATED: Graduation kit has already been claimed.'
-            : 'ALREADY SCANNED: Entrance attendance was already recorded.',
+          message: 'ALREADY SCANNED: Entrance attendance was already recorded.',
           candidate: {
             studentId: candidate.studentId,
             name: candidate.name,
@@ -226,3 +183,4 @@ export class AttendanceService {
     }
   }
 }
+

@@ -67,7 +67,7 @@ export const Navbar: React.FC = () => {
                   MVSR Engineering College
                 </span>
                 <span className="text-[10px] text-slate-400 block font-medium">
-                  Graduation Day 2026 · Gate Pass System
+                  Orientation Day - 2026 Batch · Gate Pass System
                 </span>
               </div>
             </Link>

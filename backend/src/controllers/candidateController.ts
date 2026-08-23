@@ -24,7 +24,7 @@ export class CandidateController {
         return res.status(404).json({
           eligible: false,
           status: 'NOT_FOUND',
-          message: 'Candidate not found in the official Graduation Day 2026 list. Please contact the administration.',
+          message: 'Candidate not found in the official Orientation Day - 2026 Batch list. Please contact the administration.',
         });
       }
 
@@ -34,7 +34,7 @@ export class CandidateController {
       return res.json({
         eligible: true,
         status: 'ELIGIBLE',
-        message: 'You are eligible for Graduation Day 2026.',
+        message: 'You are eligible for Orientation Day - 2026 Batch.',
         candidate: {
           id: candidate.id,
           studentId: candidate.studentId,
@@ -68,7 +68,7 @@ export class CandidateController {
 
       if (!candidate) {
         return res.status(404).json({
-          error: 'Candidate not found in the official Graduation Day 2026 list. Please contact the administration.',
+          error: 'Candidate not found in the official Orientation Day - 2026 Batch list. Please contact the administration.',
         });
       }
 
@@ -88,8 +88,8 @@ export class CandidateController {
           update: { isActive: true },
           create: {
             slug: 'attendance',
-            name: 'Graduation Day 2026',
-            description: 'Official Entrance Attendance & Gate Pass Verification for Graduation Day 2026',
+            name: 'Orientation Day - 2026 Batch',
+            description: 'Official Entrance Attendance & Gate Pass Verification for Orientation Day - 2026 Batch',
             isActive: true,
             requiresPayment: false,
           },
@@ -174,8 +174,8 @@ export class CandidateController {
           update: { isActive: true },
           create: {
             slug: 'attendance',
-            name: 'Graduation Day 2026',
-            description: 'Official Entrance Attendance & Gate Pass Verification for Graduation Day 2026',
+            name: 'Orientation Day - 2026 Batch',
+            description: 'Official Entrance Attendance & Gate Pass Verification for Orientation Day - 2026 Batch',
             isActive: true,
             requiresPayment: false,
           },

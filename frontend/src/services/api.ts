@@ -35,7 +35,7 @@ async function safeFetch(url: string, options?: RequestInit): Promise<Response> 
     return await fetch(url, options);
   } catch (err: any) {
     throw new Error(
-      'Unable to connect to the graduation portal service. Please check your internet connection and try again.'
+      'Unable to connect to the orientation portal service. Please check your internet connection and try again.'
     );
   }
 }
@@ -165,27 +165,20 @@ export const api = {
     return data.logs || [];
   },
 
-  // Gate Scanner & Kit Allocation
-  scanToken: async (qrToken: string, scanMode?: string): Promise<ScanResponse> => {
+  // QR Scanning Engine
+  scanToken: async (token: string, scanMode?: string): Promise<ScanResponse> => {
     const res = await safeFetch(`${getApiBaseUrl()}/attendance/scan`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify({ qrToken, scanMode }),
+      body: JSON.stringify({ token, scanMode: scanMode || 'attendance' }),
     });
-    const contentType = res.headers.get('content-type') || '';
-    if (contentType.includes('application/json')) {
-      return res.json();
-    }
-    return {
-      status: 'INVALID',
-      message: `Scanner error: Server returned ${res.status}`,
-    };
+    return handleResponse(res, 'Scan verification failed.');
   },
 
-  // Attendance Audit Logs & CSV Export
-  getAttendanceLogs: async (params: Record<string, string>) => {
+  // Live Attendance
+  getAttendanceLogs: async (params?: Record<string, string>): Promise<AttendanceListResponse> => {
     const query = new URLSearchParams(params).toString();
-    const res = await safeFetch(`${getApiBaseUrl()}/admin/attendance/logs?${query}`, {
+    const res = await safeFetch(`${getApiBaseUrl()}/admin/attendance?${query}`, {
       headers: { ...getAuthHeader() },
     });
     return handleResponse(res, 'Failed to load attendance logs.');
@@ -199,7 +192,7 @@ export const api = {
     const blob = await res.blob();
     return {
       blob,
-      filename: `Graduation-Day-2026-Attendance-${new Date().toISOString().split('T')[0]}.csv`,
+      filename: `Orientation-Day-2026-Attendance-${new Date().toISOString().split('T')[0]}.csv`,
     };
   },
 
@@ -216,7 +209,7 @@ export const api = {
     const res = await safeFetch(`${getApiBaseUrl()}/admin/events`, {
       headers: { ...getAuthHeader() },
     });
-    return handleResponse(res, 'Failed to fetch ceremony events.');
+    return handleResponse(res, 'Failed to fetch events.');
   },
 
   createEvent: async (eventData: { name: string; slug: string; description?: string; requiresPayment?: boolean }) => {

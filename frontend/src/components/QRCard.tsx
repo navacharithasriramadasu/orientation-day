@@ -57,7 +57,7 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
         logging: false,
       });
 
-      const fileName = `GraduationPass_${candidate.studentId.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+      const fileName = `OrientationPass_${candidate.studentId.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
       const dataUrl = canvas.toDataURL('image/png', 1.0);
 
       const isNative = Boolean(
@@ -77,7 +77,7 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
 
           await Media.savePhoto({
             path: savedFile.uri,
-            albumIdentifier: 'Graduation Passes',
+            albumIdentifier: 'Orientation Passes',
           });
 
           showToast('✓ Saved snapshot to Photo Gallery!');
@@ -123,7 +123,7 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
             </div>
             <div>
               <h3 className="font-bold text-base text-white leading-tight">{collegeName}</h3>
-              <p className="text-xs text-emerald-400 font-medium">Graduation Day 2026</p>
+              <p className="text-xs text-emerald-400 font-medium">Orientation Day - 2026 Batch</p>
             </div>
           </div>
           <StatusBadge status="ELIGIBLE" />
@@ -165,13 +165,13 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
           <QRCodeSVG value={token} size={200} level="H" includeMargin={false} />
           <div className="flex items-center gap-1.5 mt-3 text-slate-500 text-[11px] font-mono">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Verified Graduation Pass</span>
+            <span>Verified Orientation Pass</span>
           </div>
         </div>
 
         <div className="text-center text-[11px] text-slate-400 flex items-center justify-center gap-1 mb-2">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Valid for Gate Entry & Kit Allocation checkpoints</span>
+          <span>Valid for Orientation Day Entrance Verification</span>
         </div>
       </div>
 

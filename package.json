@@ -1,8 +1,8 @@
 {
-  "name": "graduation-day-2026",
+  "name": "orientation-day-2026",
   "version": "1.0.0",
   "private": true,
-  "description": "Graduation Day 2026 QR Registration, Eligibility Verification, and Entrance Attendance System",
+  "description": "Orientation Day - 2026 Batch QR Registration, Eligibility Verification, and Entrance Attendance System",
   "scripts": {
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "db:generate": "cd backend && npx prisma generate",

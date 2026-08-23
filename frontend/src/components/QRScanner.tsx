@@ -43,7 +43,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
       })
       .catch((err) => {
         setCameraError(
-          'Camera access is required to scan Graduation Day QR codes. Please allow camera access in your browser settings and try again.'
+          'Camera access is required to scan Orientation Day QR codes. Please allow camera access in your settings and try again.'
         );
       });
 
@@ -69,7 +69,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           fps: 10,
         },
         onQrCodeScanned,
-        () => {}
+        () => { }
       );
 
       setIsScanning(true);
@@ -100,7 +100,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     if (scannerRef.current && scannerRef.current.isScanning) {
       try {
         scannerRef.current.pause(true);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     try {
@@ -138,7 +138,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     if (scannerRef.current) {
       try {
         scannerRef.current.resume();
-      } catch (e) {}
+      } catch (e) { }
     }
   };
 
@@ -182,11 +182,10 @@ export const QRScanner: React.FC<QRScannerProps> = ({
 
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`p-2 rounded-xl border text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer ${
-              soundEnabled
+            className={`p-2 rounded-xl border text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer ${soundEnabled
                 ? 'bg-slate-700 text-emerald-400 border-slate-600'
                 : 'bg-slate-900 text-slate-500 border-slate-800'
-            }`}
+              }`}
             title={soundEnabled ? 'Sound Enabled' : 'Sound Disabled'}
           >
             {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
@@ -229,9 +228,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               <div className="w-full h-full bg-emerald-950/95 border-4 border-emerald-500 rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl">
                 <CheckCircle2 className="w-16 h-16 text-emerald-400 mb-2 animate-bounce" />
                 <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-400 mb-1">
-                  {scanResult.event?.toLowerCase().includes('kit') || scanResult.message?.toLowerCase().includes('kit')
-                    ? '🎓 KIT ALLOCATION APPROVED'
-                    : '✓ GATE ENTRY ALLOWED'}
+                  ✓ ENTRANCE VERIFIED
                 </span>
                 <h2 className="text-2xl font-black text-white mb-1">
                   {scanResult.candidate?.name}
@@ -254,9 +251,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               <div className="w-full h-full bg-amber-950/95 border-4 border-amber-500 rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl">
                 <AlertTriangle className="w-16 h-16 text-amber-400 mb-2 animate-pulse" />
                 <span className="text-xs font-extrabold uppercase tracking-widest text-amber-400 mb-1">
-                  {scanResult.event?.toLowerCase().includes('kit') || scanResult.message?.toLowerCase().includes('kit')
-                    ? '⚠ KIT ALREADY CLAIMED'
-                    : '⚠ ALREADY SCANNED'}
+                  ⚠ ALREADY SCANNED
                 </span>
                 <h2 className="text-2xl font-black text-white mb-1">
                   {scanResult.candidate?.name || 'Candidate'}
@@ -279,7 +274,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               <div className="w-full h-full bg-rose-950/95 border-4 border-rose-500 rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl">
                 <XCircle className="w-16 h-16 text-rose-500 mb-2" />
                 <span className="text-xs font-extrabold uppercase tracking-widest text-rose-400 mb-1">
-                  ✕ KIT ALLOCATION DENIED
+                  ✕ ENTRANCE ACCESS DENIED
                 </span>
                 <h2 className="text-2xl font-black text-white mb-1">
                   {scanResult.candidate?.name || 'Candidate'}
@@ -302,21 +297,21 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               scanResult.status === 'EVENT_INACTIVE' ||
               scanResult.status === 'QR_DISABLED' ||
               scanResult.status === 'WRONG_EVENT') && (
-              <div className="w-full h-full bg-slate-950/95 border-4 border-rose-600 rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl">
-                <XCircle className="w-16 h-16 text-rose-500 mb-2" />
-                <span className="text-xs font-extrabold uppercase tracking-widest text-rose-400 mb-1">
-                  ✕ {scanResult.status.replace(/_/g, ' ')}
-                </span>
-                <h3 className="text-lg font-bold text-white mb-2 max-w-sm">
-                  {scanResult.message}
-                </h3>
-                {autoResetTimer !== null && (
-                  <span className="text-[11px] text-slate-400 font-mono mt-3 flex items-center gap-1">
-                    <RefreshCw className="w-3 h-3 animate-spin" /> Resetting scanner in {autoResetTimer}s...
+                <div className="w-full h-full bg-slate-950/95 border-4 border-rose-600 rounded-2xl p-6 flex flex-col items-center justify-center shadow-2xl">
+                  <XCircle className="w-16 h-16 text-rose-500 mb-2" />
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-rose-400 mb-1">
+                    ✕ {scanResult.status.replace(/_/g, ' ')}
                   </span>
-                )}
-              </div>
-            )}
+                  <h3 className="text-lg font-bold text-white mb-2 max-w-sm">
+                    {scanResult.message}
+                  </h3>
+                  {autoResetTimer !== null && (
+                    <span className="text-[11px] text-slate-400 font-mono mt-3 flex items-center gap-1">
+                      <RefreshCw className="w-3 h-3 animate-spin" /> Resetting scanner in {autoResetTimer}s...
+                    </span>
+                  )}
+                </div>
+              )}
           </div>
         )}
       </div>

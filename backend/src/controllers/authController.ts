@@ -16,23 +16,23 @@ export class AuthController {
       const inputUsername = username.trim().toLowerCase();
       const inputPassword = password.trim();
 
-      const defaultAdminUser = (process.env.DEFAULT_ADMIN_USERNAME || 'admin@graduation.edu').trim().toLowerCase();
-      const defaultAdminPass = process.env.DEFAULT_ADMIN_PASSWORD || 'admin@2026';
+      const defaultAdminUser = (process.env.DEFAULT_ADMIN_USERNAME || 'admin@orientation.edu').trim().toLowerCase();
+      const defaultAdminPass = process.env.DEFAULT_ADMIN_PASSWORD || 'admin-2026';
 
       // 1. Infallible Master Admin Check (Instant response, resistant to DB cold starts)
       if (
-        (inputUsername === defaultAdminUser || inputUsername === 'admin' || inputUsername === 'admin@graduation.edu') &&
+        (inputUsername === defaultAdminUser || inputUsername === 'admin' || inputUsername === 'admin@orientation.edu') &&
         inputPassword === defaultAdminPass
       ) {
         const fallbackAdminId = '2a8248a8-2577-4ce7-bad9-c71046ca7593';
         let adminId = fallbackAdminId;
-        let adminUsername = 'admin@graduation.edu';
-        let adminName = 'Graduation Admin';
+        let adminUsername = 'admin@orientation.edu';
+        let adminName = 'Orientation Admin';
 
         try {
           const user = await prisma.user.findFirst({
             where: {
-              OR: [{ username: 'admin@graduation.edu' }, { username: 'admin' }],
+              OR: [{ username: 'admin@orientation.edu' }, { username: 'admin' }],
             },
           });
 
@@ -44,7 +44,7 @@ export class AuthController {
             const passwordHash = PasswordUtils.hashPassword(defaultAdminPass);
             const created = await prisma.user.create({
               data: {
-                username: 'admin@graduation.edu',
+                username: 'admin@orientation.edu',
                 passwordHash,
                 role: 'ADMIN',
                 name: adminName,
@@ -135,8 +135,8 @@ export class AuthController {
       if (!user && req.user.role === 'ADMIN') {
         user = {
           id: req.user.userId,
-          username: req.user.username || 'admin@graduation.edu',
-          name: 'Graduation Admin',
+          username: req.user.username || 'admin@orientation.edu',
+          name: 'Orientation Admin',
           role: 'ADMIN',
         };
       }

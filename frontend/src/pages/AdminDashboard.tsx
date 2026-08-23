@@ -96,14 +96,6 @@ export const AdminDashboard: React.FC = () => {
     percentage: stats.attendanceRate || 0,
   };
 
-  const kitStats = stats.kitStats || {
-    total: 0,
-    paid: 0,
-    unpaid: 0,
-    remaining: stats.totalCandidates || 0,
-    percentage: 0,
-  };
-
   const collegeLabel =
     selectedCollege === 'all'
       ? 'All Institutions'
@@ -119,10 +111,10 @@ export const AdminDashboard: React.FC = () => {
         <div>
           <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
             <GraduationCap className="w-7 h-7 text-emerald-400" />
-            <span>Graduation Day 2026 Dashboard</span>
+            <span>Orientation Day - 2026 Batch Dashboard</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time candidate statistics, Gate Entry attendance, and Graduation Kit distribution.
+            Real-time candidate statistics, digital pass issuance, and Entrance Verification attendance.
           </p>
         </div>
         
@@ -260,95 +252,54 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Checkpoints Live Tracking Cards (Gate Entry vs Kit Allocation) ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-
-        {/* 1. Gate Entry Card */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/30 rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-xl">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
-                <LogIn className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-black text-white leading-tight">
-                  Gate Entry Attendance
-                </h3>
-                <p className="text-[11px] sm:text-xs text-slate-400">Entrance pass scans verified</p>
-              </div>
+      {/* ── Entrance Verification Live Tracking Card ── */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/30 rounded-3xl p-5 sm:p-7 space-y-5 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0 shadow-lg">
+              <LogIn className="w-6 h-6" />
             </div>
-            <span className="text-xl sm:text-2xl font-black text-emerald-400 font-mono shrink-0">
+            <div>
+              <h3 className="text-lg sm:text-xl font-black text-white leading-tight">
+                Entrance Gate Attendance Verification
+              </h3>
+              <p className="text-xs text-slate-400">Live QR verified entries at Orientation Day ceremony gates</p>
+            </div>
+          </div>
+          <div className="flex items-baseline gap-2 self-start sm:self-auto bg-slate-950/60 px-4 py-2 rounded-2xl border border-emerald-500/20">
+            <span className="text-xs text-slate-400 font-semibold">Attendance Rate:</span>
+            <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
               {entryStats.percentage}%
             </span>
           </div>
-
-          {/* Progress bar */}
-          <div className="w-full h-2.5 sm:h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-            <div
-              className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min(100, entryStats.percentage)}%` }}
-            />
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
-            <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase block">Total Entered</span>
-              <p className="text-base sm:text-xl font-black text-white font-mono">{entryStats.total}</p>
-            </div>
-            <div className="bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-emerald-400 uppercase block">Paid Students</span>
-              <p className="text-base sm:text-xl font-black text-emerald-300 font-mono">{entryStats.paid}</p>
-            </div>
-            <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-rose-400 uppercase block">Unpaid Students</span>
-              <p className="text-base sm:text-xl font-black text-rose-300 font-mono">{entryStats.unpaid}</p>
-            </div>
-          </div>
         </div>
 
-        {/* 2. Kit Allocation Card */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/40 border border-amber-500/30 rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-xl">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
-                <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-black text-white leading-tight">
-                  Graduation Kit Allocation
-                </h3>
-                <p className="text-[11px] sm:text-xs text-slate-400">Gown & graduation kit distribution</p>
-              </div>
-            </div>
-            <span className="text-xl sm:text-2xl font-black text-amber-400 font-mono shrink-0">
-              {kitStats.percentage}%
-            </span>
-          </div>
-
-          {/* Progress bar */}
-          <div className="w-full h-2.5 sm:h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-            <div
-              className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-500"
-              style={{ width: `${Math.min(100, kitStats.percentage)}%` }}
-            />
-          </div>
-
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
-            <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase block">Total Distributed</span>
-              <p className="text-base sm:text-xl font-black text-white font-mono">{kitStats.total}</p>
-            </div>
-            <div className="bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-emerald-400 uppercase block">Kits to Paid</span>
-              <p className="text-base sm:text-xl font-black text-emerald-300 font-mono">{kitStats.paid}</p>
-            </div>
-            <div className="bg-amber-950/40 border border-amber-500/20 rounded-2xl p-2.5 sm:p-3 text-center space-y-1">
-              <span className="text-[9px] sm:text-[10px] font-bold text-amber-400 uppercase block">Kits to Unpaid</span>
-              <p className="text-base sm:text-xl font-black text-amber-300 font-mono">{kitStats.unpaid}</p>
-            </div>
-          </div>
+        {/* Progress bar */}
+        <div className="w-full h-3 sm:h-4 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
+          <div
+            className="h-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-300 rounded-full transition-all duration-500 shadow-md shadow-emerald-500/30"
+            style={{ width: `${Math.min(100, entryStats.percentage)}%` }}
+          />
         </div>
 
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-1">
+          <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center space-y-1">
+            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase block">Total Verified</span>
+            <p className="text-lg sm:text-2xl font-black text-white font-mono">{entryStats.total}</p>
+          </div>
+          <div className="bg-emerald-950/40 border border-emerald-500/20 rounded-2xl p-3 sm:p-4 text-center space-y-1">
+            <span className="text-[10px] sm:text-[11px] font-bold text-emerald-400 uppercase block">Paid Students Entered</span>
+            <p className="text-lg sm:text-2xl font-black text-emerald-300 font-mono">{entryStats.paid}</p>
+          </div>
+          <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-3 sm:p-4 text-center space-y-1">
+            <span className="text-[10px] sm:text-[11px] font-bold text-rose-400 uppercase block">Unpaid Students Entered</span>
+            <p className="text-lg sm:text-2xl font-black text-rose-300 font-mono">{entryStats.unpaid}</p>
+          </div>
+          <div className="bg-indigo-950/40 border border-indigo-500/20 rounded-2xl p-3 sm:p-4 text-center space-y-1">
+            <span className="text-[10px] sm:text-[11px] font-bold text-indigo-400 uppercase block">Remaining Attendees</span>
+            <p className="text-lg sm:text-2xl font-black text-indigo-300 font-mono">{entryStats.remaining}</p>
+          </div>
+        </div>
       </div>
 
       {/* ── Branch / Program Breakdown ── */}

@@ -77,17 +77,17 @@ export const AdminEvents: React.FC = () => {
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
             <Calendar className="w-8 h-8 text-emerald-400" />
-            Graduation Ceremony Events
+            Orientation Day Sessions & Events
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Configure graduation ceremony sessions and gate entrance event targets.
+            Configure Orientation Day sessions and gate entrance event targets.
           </p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md shadow-emerald-500/20"
         >
-          <Plus className="w-4 h-4" /> Create New Ceremony Session
+          <Plus className="w-4 h-4" /> Create New Entrance Session
         </button>
       </div>
 
@@ -110,16 +110,9 @@ export const AdminEvents: React.FC = () => {
                 <span className="font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                   [{ev.slug}]
                 </span>
-                {/* Scan mode badge */}
-                {ev.requiresPayment ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/25">
-                    🎁 Kit Allocation
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    🚪 Entrance Gate
-                  </span>
-                )}
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  🚪 Entrance Gate
+                </span>
               </div>
               <h3 className="text-lg font-bold text-white">{ev.name}</h3>
               <p className="text-xs text-slate-400 line-clamp-2">{ev.description || 'No description provided.'}</p>
@@ -148,38 +141,29 @@ export const AdminEvents: React.FC = () => {
               <button
                 onClick={() => handleViewStats(ev.id)}
                 className="py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold cursor-pointer"
-                title="View Session Stats"
               >
-                <BarChart2 className="w-4 h-4" />
+                Stats
               </button>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Create Event Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
           <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 sm:p-8 w-full max-w-md space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-slate-700 pb-4">
-              <h3 className="text-lg font-bold text-white">Create Ceremony Session</h3>
-              <button
-                onClick={() => setShowCreateModal(false)}
-                className="text-slate-400 hover:text-white text-xs cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
+            <h3 className="text-xl font-bold text-white">Create New Session</h3>
             <form onSubmit={handleCreateEvent} className="space-y-4">
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Event Name
+                  Session / Event Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Morning Session - Engineering"
+                  placeholder="e.g. Orientation Day - Morning Session"
                   required
                   className="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
@@ -187,7 +171,7 @@ export const AdminEvents: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
-                  Event Slug ID
+                  URL Slug (Unique Key)
                 </label>
                 <input
                   type="text"
@@ -195,7 +179,7 @@ export const AdminEvents: React.FC = () => {
                   onChange={(e) => setSlug(e.target.value)}
                   placeholder="e.g. morning-session"
                   required
-                  className="w-full bg-slate-900 border border-slate-700 text-white text-xs font-mono rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  className="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none font-mono"
                 />
               </div>
 
@@ -210,41 +194,6 @@ export const AdminEvents: React.FC = () => {
                   className="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   rows={3}
                 ></textarea>
-              </div>
-
-              {/* Scan Mode Selector */}
-              <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
-                  Scan Mode
-                </label>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setRequiresPayment(false)}
-                    className={`flex-1 flex flex-col items-center gap-1 p-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                      !requiresPayment
-                        ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300'
-                        : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-500'
-                    }`}
-                  >
-                    <span className="text-lg">🚪</span>
-                    <span>Entrance Gate</span>
-                    <span className="text-[10px] font-normal text-slate-400">All students allowed</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRequiresPayment(true)}
-                    className={`flex-1 flex flex-col items-center gap-1 p-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                      requiresPayment
-                        ? 'bg-violet-500/20 border-violet-500/60 text-violet-300'
-                        : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-500'
-                    }`}
-                  >
-                    <span className="text-lg">🎁</span>
-                    <span>Kit Allocation</span>
-                    <span className="text-[10px] font-normal text-slate-400">Paid students only</span>
-                  </button>
-                </div>
               </div>
 
               <div className="flex justify-end gap-3 pt-4 border-t border-slate-700">

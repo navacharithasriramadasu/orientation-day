@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get(['/', '/health', '/api/health'], (req, res) => {
   res.json({
     status: 'OK',
-    system: 'Graduation Day 2026 System',
+    system: 'Orientation Day - 2026 Batch System',
     timestamp: new Date().toISOString(),
     api: '/api',
   });

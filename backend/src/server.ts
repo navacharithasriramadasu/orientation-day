@@ -15,13 +15,13 @@ async function bootstrapAdmin() {
       update: {
         passwordHash,
         role: 'ADMIN',
-        name: 'Graduation Admin',
+        name: 'Orientation Admin',
       },
       create: {
         username: adminUser,
         passwordHash,
         role: 'ADMIN',
-        name: 'Graduation Admin',
+        name: 'Orientation Admin',
       },
     });
     console.log(`[Bootstrap] Admin account verified: ${adminUser}`);
@@ -35,7 +35,7 @@ const HOST = '0.0.0.0';
 
 app.listen(PORT, HOST, async () => {
   console.log(`===================================================`);
-  console.log(` Graduation Day 2026 Backend Running on port ${PORT}`);
+  console.log(` Orientation Day - 2026 Batch Backend Running on port ${PORT}`);
   console.log(`===================================================`);
   await bootstrapAdmin();
 });

@@ -1,5 +1,5 @@
 {
   "appId": "com.tarunkanugu.graduationqr",
-  "appName": "Graduation QR Scanner",
+  "appName": "Orientation QR Scanner",
   "webDir": "frontend/dist"
 }

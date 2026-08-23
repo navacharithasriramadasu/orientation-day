@@ -49,7 +49,7 @@ export const LoginPage: React.FC = () => {
       console.log('[Student Login Request]', { studentId: cleanStudentId });
       const res = await api.studentLogin(cleanStudentId, cleanPassword);
       if (res.status === 'NOT_FOUND') {
-        setStudentError(res.error || 'Student record not found in official graduation list.');
+        setStudentError(res.error || 'Student record not found in official orientation list.');
         return;
       }
       loginStudent(res);
@@ -134,7 +134,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Graduation Day <span className="text-blue-600 font-extrabold">2026</span>
+            Orientation Day <span className="text-blue-600 font-extrabold">2026 Batch</span>
           </h1>
 
           <p className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-widest">
@@ -149,10 +149,8 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* PROMINENT LARGE COLLEGE NAMES */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-base sm:text-xl md:text-2xl font-black text-slate-900 pt-1 text-center">
+          <div className="flex items-center justify-center text-base sm:text-xl md:text-2xl font-black text-slate-900 pt-1 text-center">
             <span className="tracking-tight text-slate-900">MVSR Engineering College</span>
-            <span className="text-blue-500 font-bold hidden sm:inline px-1">|</span>
-            <span className="tracking-tight text-slate-900">Matrusri Engineering College</span>
           </div>
         </div>
 

@@ -49,21 +49,14 @@ export class DashboardController {
         ],
       };
 
-      // Find ceremony events
+      // Find default entrance event
       const entryEvent = await prisma.event.findFirst({
         where: {
           OR: [{ slug: 'attendance' }, { slug: 'entry' }],
         },
       });
 
-      const kitEvent = await prisma.event.findFirst({
-        where: {
-          OR: [{ slug: 'kit-allocation' }, { slug: 'kit' }],
-        },
-      });
-
       const entryEventId = entryEvent?.id;
-      const kitEventId = kitEvent?.id;
 
       // Query database with college filter applied
       const [
@@ -76,10 +69,6 @@ export class DashboardController {
         entryCount,
         entryPaidCount,
         entryUnpaidCount,
-        // Kit Allocation scans
-        kitCount,
-        kitPaidCount,
-        kitUnpaidCount,
         programBreakdown,
         collegeBreakdown,
       ] = await Promise.all([
@@ -120,32 +109,6 @@ export class DashboardController {
           })
           : 0,
 
-        // Kit Allocation Scans
-        kitEventId
-          ? prisma.attendance.count({
-            where: {
-              eventId: kitEventId,
-              candidate: baseCandidateWhere,
-            },
-          })
-          : 0,
-        kitEventId
-          ? prisma.attendance.count({
-            where: {
-              eventId: kitEventId,
-              candidate: paidCondition,
-            },
-          })
-          : 0,
-        kitEventId
-          ? prisma.attendance.count({
-            where: {
-              eventId: kitEventId,
-              candidate: unpaidCondition,
-            },
-          })
-          : 0,
-
         prisma.candidate.groupBy({
           where: baseCandidateWhere,
           by: ['program'],
@@ -158,7 +121,6 @@ export class DashboardController {
         }),
       ]);
 
-      const kitRemainingCount = Math.max(0, totalCandidates - kitCount);
       const entryRemainingCount = Math.max(0, totalCandidates - entryCount);
 
       const availableColleges = [
@@ -186,15 +148,6 @@ export class DashboardController {
           unpaid: entryUnpaidCount,
           remaining: entryRemainingCount,
           percentage: totalCandidates > 0 ? parseFloat(((entryCount / totalCandidates) * 100).toFixed(1)) : 0,
-        },
-
-        // Kit Allocation
-        kitStats: {
-          total: kitCount,
-          paid: kitPaidCount,
-          unpaid: kitUnpaidCount,
-          remaining: kitRemainingCount,
-          percentage: totalCandidates > 0 ? parseFloat(((kitCount / totalCandidates) * 100).toFixed(1)) : 0,
         },
 
         // Legacy compatibility fields

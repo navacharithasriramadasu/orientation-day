@@ -48,7 +48,7 @@ export const CandidateRegister: React.FC = () => {
             Official Student Portal
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Graduation Day 2026 Pass
+            Orientation Day - 2026 Batch Pass
           </h1>
           <p className="text-sm text-slate-400 max-w-md mx-auto">
             Enter your official Student ID to verify eligibility and generate your entrance QR card.
@@ -67,7 +67,7 @@ export const CandidateRegister: React.FC = () => {
                     type="text"
                     value={studentIdInput}
                     onChange={(e) => setStudentIdInput(e.target.value)}
-                    placeholder="e.g. GD001 or 2451-22-732-001"
+                    placeholder="e.g. 2451-22-732-001 or 1608-22-732-001"
                     required
                     className="w-full bg-slate-900 border border-slate-700 rounded-2xl py-3.5 pl-11 pr-4 text-white placeholder-slate-500 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                   />
@@ -107,7 +107,7 @@ export const CandidateRegister: React.FC = () => {
           <div className="space-y-6 animate-in zoom-in-95 duration-300">
             <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-2xl p-4 text-xs font-semibold flex items-center justify-center gap-2">
               <CheckCircle className="w-5 h-5 text-emerald-400" />
-              <span>You are eligible for Graduation Day 2026. Entrance pass activated!</span>
+              <span>You are eligible for Orientation Day - 2026 Batch. Entrance pass activated!</span>
             </div>
 
             <QRCard

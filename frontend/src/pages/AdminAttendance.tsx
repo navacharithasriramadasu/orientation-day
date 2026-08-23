@@ -18,11 +18,6 @@ export const AdminAttendance: React.FC = () => {
         page: page.toString(),
         limit: '30',
       };
-      if (filterMode === 'entry') {
-        params.search = 'entry';
-      } else if (filterMode === 'kit') {
-        params.search = 'kit';
-      }
       const res = await api.getAttendanceLogs(params);
       setRecords(res.records || []);
       setPagination(res.pagination || { total: 0, totalPages: 1 });
@@ -35,7 +30,7 @@ export const AdminAttendance: React.FC = () => {
 
   useEffect(() => {
     fetchAttendance();
-  }, [page, filterMode]);
+  }, [page]);
 
   const handleExportCSV = async () => {
     try {
@@ -51,21 +46,16 @@ export const AdminAttendance: React.FC = () => {
     }
   };
 
-  const isKitRecord = (r: any) => {
-    const eventName = (r.eventName || r.event?.name || '').toLowerCase();
-    return eventName.includes('kit');
-  };
-
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
             <ClipboardList className="w-8 h-8 text-emerald-400" />
-            Attendance & Kit Allocation Log
+            Orientation Day Attendance Log
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time audit log of Gate Entry check-ins and Graduation Kit distribution.
+            Real-time audit log of Orientation Day entrance check-ins and gate verifications.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -86,42 +76,6 @@ export const AdminAttendance: React.FC = () => {
         </div>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => { setFilterMode('all'); setPage(1); }}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-            filterMode === 'all'
-              ? 'bg-slate-700 text-white border border-slate-600'
-              : 'bg-slate-900/60 text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          All Checkpoints ({pagination.total})
-        </button>
-        <button
-          onClick={() => { setFilterMode('entry'); setPage(1); }}
-          className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-            filterMode === 'entry'
-              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-              : 'bg-slate-900/60 text-slate-400 hover:text-emerald-300'
-          }`}
-        >
-          <LogIn className="w-3.5 h-3.5" />
-          Gate Entries
-        </button>
-        <button
-          onClick={() => { setFilterMode('kit'); setPage(1); }}
-          className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-            filterMode === 'kit'
-              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-              : 'bg-slate-900/60 text-slate-400 hover:text-amber-300'
-          }`}
-        >
-          <GraduationCap className="w-3.5 h-3.5" />
-          Kit Allocations
-        </button>
-      </div>
-
       <div className="bg-slate-800/80 backdrop-blur-xl border border-slate-700/80 rounded-3xl overflow-hidden shadow-xl">
         {loading ? (
           <div className="p-12 text-center text-slate-400 text-xs flex items-center justify-center gap-2">
@@ -140,7 +94,7 @@ export const AdminAttendance: React.FC = () => {
                   <th className="py-3.5 px-4">Candidate Name</th>
                   <th className="py-3.5 px-4">Program</th>
                   <th className="py-3.5 px-4">Fee Status</th>
-                  <th className="py-3.5 px-4">Checkpoint / Event</th>
+                  <th className="py-3.5 px-4">Event Checkpoint</th>
                   <th className="py-3.5 px-4">Verification Status</th>
                 </tr>
               </thead>
@@ -148,18 +102,17 @@ export const AdminAttendance: React.FC = () => {
                 {records.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-slate-500">
-                      No scan records logged for this filter. Start scanning QR passes at checkpoints.
+                      No scan records logged yet. Start scanning student QR passes at the entrance gate.
                     </td>
                   </tr>
                 ) : (
                   records.map((r) => {
-                    const isKit = isKitRecord(r);
                     const timestamp = r.entryTime || r.scannedAt || r.createdAt;
                     const studentId = r.studentId || r.candidate?.studentId;
                     const candidateName = r.candidateName || r.candidate?.name;
                     const program = r.program || r.candidate?.program;
-                    const feeStatus = r.paymentStatus || r.candidate?.paymentStatus || 'Unknown';
-                    const eventName = r.eventName || r.event?.name || 'Gate Entry';
+                    const feeStatus = r.paymentStatus || r.candidate?.paymentStatus || 'Paid';
+                    const eventName = r.eventName || r.event?.name || 'Orientation Day - 2026 Batch';
 
                     return (
                       <tr key={r.id} className="hover:bg-slate-700/40 transition-colors">
@@ -185,26 +138,14 @@ export const AdminAttendance: React.FC = () => {
                           </span>
                         </td>
                         <td className="py-3.5 px-4">
-                          <span
-                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold ${
-                              isKit
-                                ? 'bg-amber-500/10 text-amber-300 border border-amber-500/30'
-                                : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/30'
-                            }`}
-                          >
-                            {isKit ? <GraduationCap className="w-3.5 h-3.5" /> : <LogIn className="w-3.5 h-3.5" />}
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                            <LogIn className="w-3.5 h-3.5" />
                             {eventName}
                           </span>
                         </td>
                         <td className="py-3.5 px-4">
-                          <span
-                            className={`inline-flex items-center gap-1 font-bold text-[11px] px-2.5 py-0.5 rounded-full border ${
-                              isKit
-                                ? 'text-amber-300 bg-amber-500/10 border-amber-500/20'
-                                : 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
-                            }`}
-                          >
-                            <UserCheck className="w-3.5 h-3.5" /> {isKit ? 'KIT ALLOCATED' : 'ENTRY VERIFIED'}
+                          <span className="inline-flex items-center gap-1 font-bold text-[11px] px-2.5 py-0.5 rounded-full border text-emerald-400 bg-emerald-500/10 border-emerald-500/20">
+                            <UserCheck className="w-3.5 h-3.5" /> ENTRY VERIFIED
                           </span>
                         </td>
                       </tr>

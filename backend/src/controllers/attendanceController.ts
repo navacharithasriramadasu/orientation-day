@@ -141,7 +141,7 @@ export class AttendanceController {
       }
 
       res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', `attachment; filename="Graduation-Attendance-${Date.now()}.csv"`);
+      res.setHeader('Content-Disposition', `attachment; filename="Orientation-Attendance-${Date.now()}.csv"`);
       return res.status(200).send(csv);
     } catch (err: any) {
       return res.status(500).json({ error: err.message || 'CSV export error' });

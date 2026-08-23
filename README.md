@@ -1,6 +1,6 @@
-# Graduation Day 2026 QR Registration, Eligibility Verification & Entrance Attendance System
+# Orientation Day - 2026 Batch QR Registration, Eligibility Verification & Entrance Attendance System
 
-A reliable, secure, free, and open-source Graduation Day 2026 QR Registration, Eligibility Verification, and Entrance Attendance System designed for ~1,000 candidates.
+A reliable, secure, free, and open-source Orientation Day - 2026 Batch QR Registration, Eligibility Verification, and Entrance Attendance System designed for candidate check-ins.
 
 ---
 
