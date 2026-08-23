@@ -63,18 +63,18 @@ export const QRCard: React.FC<QRCardProps> = ({ candidate, event, token }) => {
       if (isNative) {
         try {
           const { Filesystem, Directory } = await import('@capacitor/filesystem');
-          const { Media } = await import('@capacitor-community/media');
+          const { Share } = await import('@capacitor/share');
           const base64Raw = dataUrl.split(',')[1];
           const savedFile = await Filesystem.writeFile({
             path: fileName,
             data: base64Raw,
             directory: Directory.Cache,
           });
-          await Media.savePhoto({
-            path: savedFile.uri,
-            albumIdentifier: 'Orientation Passes',
+          await Share.share({
+            title: 'My Orientation Pass',
+            url: savedFile.uri,
+            dialogTitle: 'Save or Share your QR Pass'
           });
-          showToast('✓ Saved to Photo Gallery!');
           setDownloading(false);
           return;
         } catch (nativeErr: any) {
