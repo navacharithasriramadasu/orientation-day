@@ -15,21 +15,33 @@ export class CandidateController {
         return res.status(400).json({ error: 'Student ID is required.' });
       }
 
-      const trimmedStudentId = studentId.trim();
-      const candidate = await prisma.candidate.findUnique({
-        where: { studentId: trimmedStudentId },
+      const trimmedId = studentId.trim();
+      // Also try normalized ID (no hyphens/spaces) for flexible matching
+      const normalizedId = trimmedId.replace(/[-\s]/g, '');
+
+      let candidate = await prisma.candidate.findUnique({
+        where: { studentId: trimmedId },
       });
+
+      // Fallback: try normalized ID if exact match fails
+      if (!candidate && normalizedId !== trimmedId) {
+        candidate = await prisma.candidate.findFirst({
+          where: {
+            OR: [
+              { studentId: { equals: normalizedId } },
+              { studentId: { contains: normalizedId.slice(0, 4) } },
+            ],
+          },
+        });
+      }
 
       if (!candidate) {
         return res.status(404).json({
           eligible: false,
           status: 'NOT_FOUND',
-          message: 'Candidate not found in the official Orientation Day - 2026 Batch list. Please contact the administration.',
+          message: 'Student record not found. Please verify your Roll Number with the administration.',
         });
       }
-
-      // Removed payment and eligibility checks to allow all students.
-
 
       return res.json({
         eligible: true,
@@ -40,7 +52,7 @@ export class CandidateController {
           studentId: candidate.studentId,
           name: candidate.name,
           program: candidate.program,
-          college: candidate.college || (candidate.studentId.startsWith('1608') ? 'Matrusri Engineering College' : 'MVSR Engineering College'),
+          college: candidate.college || 'MVSR Engineering College',
           paymentStatus: candidate.paymentStatus,
           registrationStatus: candidate.registrationStatus,
         },
@@ -62,9 +74,18 @@ export class CandidateController {
         return res.status(400).json({ error: 'Student ID is required.' });
       }
 
-      const candidate = await prisma.candidate.findUnique({
-        where: { studentId: studentId.trim() },
+      const trimmedId = studentId.trim();
+      const normalizedId = trimmedId.replace(/[-\s]/g, '');
+
+      let candidate = await prisma.candidate.findUnique({
+        where: { studentId: trimmedId },
       });
+
+      if (!candidate && normalizedId !== trimmedId) {
+        candidate = await prisma.candidate.findFirst({
+          where: { studentId: { equals: normalizedId } },
+        });
+      }
 
       if (!candidate) {
         return res.status(404).json({

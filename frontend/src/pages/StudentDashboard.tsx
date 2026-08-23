@@ -60,7 +60,7 @@ export const StudentDashboard: React.FC = () => {
             Official Student Pass
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-            Orientation Day<br className="sm:hidden" /> - 2026 Batch
+            Orientation Day<br className="sm:hidden" /> - 2026
           </h1>
           <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
             Welcome, <strong className="text-white">{candidate.name}</strong>. Present this QR pass at the entrance gate.

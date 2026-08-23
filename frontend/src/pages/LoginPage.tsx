@@ -134,7 +134,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Orientation Day <span className="text-blue-600 font-extrabold">2026 Batch</span>
+            Orientation Day <span className="text-blue-600 font-extrabold">2026</span>
           </h1>
 
           <p className="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-widest">

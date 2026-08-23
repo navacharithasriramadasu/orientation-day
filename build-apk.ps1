@@ -1,9 +1,9 @@
-# Graduation Day 2026 - Android APK Build Script
+# Orientation Day 2026 - Android APK Build Script
 $ErrorActionPreference = "Stop"
 
-Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host " Building Graduation Day 2026 Mobile APK" -ForegroundColor Cyan
-Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host "=========================================================="  -ForegroundColor Cyan
+Write-Host " Building Orientation Day 2026 Mobile APK" -ForegroundColor Cyan
+Write-Host "=========================================================="  -ForegroundColor Cyan
 
 # 1. Locate Java 21/17 JDK
 $jdkPath = "C:\Program Files\Eclipse Adoptium\jdk-21.0.12.8-hotspot"
@@ -48,7 +48,7 @@ Set-Location $PSScriptRoot
 
 # Copy to root
 $sourceApk = "$PSScriptRoot\android\app\build\outputs\apk\debug\app-debug.apk"
-$targetApk = "$PSScriptRoot\GraduationQR-Scanner.apk"
+$targetApk = "$PSScriptRoot\OrientationDay-QR-Scanner.apk"
 
 if (Test-Path $sourceApk) {
     Copy-Item -Path $sourceApk -Destination $targetApk -Force
